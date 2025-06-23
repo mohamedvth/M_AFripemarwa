@@ -1118,10 +1118,6 @@
         const ADMIN_USERNAME = "admin";
         const ADMIN_PASSWORD = "5513090807**Aa";
         
-        // Configuration
-        const API_URL = "https://mohamedvth.github.io/maintenancescapcb/";
-        const SYNC_INTERVAL = 30000; // 30 seconds
-        
         // DOM elements
         const loginOverlay = document.getElementById('loginOverlay');
         const mainApp = document.getElementById('mainApp');
@@ -1145,7 +1141,6 @@
         const MAX_LOGIN_ATTEMPTS = 3;
         let isEditing = false;
         let currentEditId = null;
-        let syncInterval = null;
         let deviceId = generateDeviceId();
         
         // Generate unique device ID
@@ -1203,11 +1198,6 @@
                     renderInterventionList();
                     updateStats();
                     
-                    // Start sync interval
-                    startSyncInterval();
-                    
-                    // Initial sync
-                    syncData();
                 } catch (error) {
                     console.error("Erreur de chargement:", error);
                     loginOverlay.style.display = 'none';
@@ -1215,8 +1205,6 @@
                     renderEquipmentList();
                     renderInterventionList();
                     updateStats();
-                    startSyncInterval();
-                    syncData();
                 }
             } else {
                 // Failed login
@@ -1254,21 +1242,6 @@
             equipmentList = [];
             nextId = 1;
             resetForm();
-            
-            // Stop sync interval
-            stopSyncInterval();
-        }
-        
-        // Start sync interval
-        function startSyncInterval() {
-            if (syncInterval) clearInterval(syncInterval);
-            syncInterval = setInterval(syncData, SYNC_INTERVAL);
-        }
-        
-        // Stop sync interval
-        function stopSyncInterval() {
-            if (syncInterval) clearInterval(syncInterval);
-            syncInterval = null;
         }
         
         // Toggle interventions button
@@ -1428,9 +1401,6 @@
             updateLocalStorage();
             updateStats();
             resetForm();
-            
-            // Sync changes
-            syncData();
         });
         
         // Reset form to initial state
@@ -1494,9 +1464,6 @@
                 if (isEditing && currentEditId == id) {
                     resetForm();
                 }
-                
-                // Sync changes
-                syncData();
             }
         }
         
@@ -1694,8 +1661,7 @@
         function updateLocalStorage() {
             const appData = {
                 interventions: interventions,
-                nextId: nextId,
-                lastSync: new Date().toISOString()
+                nextId: nextId
             };
             localStorage.setItem('scapcb-data', JSON.stringify(appData));
         }
@@ -1805,69 +1771,28 @@
                 
                 // Reset file input
                 importExcelInput.value = '';
-                
-                // Sync changes
-                syncData();
             };
             
             reader.readAsArrayBuffer(file);
         });
         
-        // Synchronize data with server
-        async function syncData() {
-            syncBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Synchronisation...';
+        // Show sync status
+        function showSyncStatus(message, isSuccess) {
+            // Remove existing status
+            const existingStatus = document.querySelector('.sync-status');
+            if (existingStatus) existingStatus.remove();
             
-            try {
-                // Get last sync timestamp
-                const storedData = localStorage.getItem('scapcb-data');
-                const lastSync = storedData ? JSON.parse(storedData).lastSync : null;
-                
-                // Simulate API call to server
-                const response = await fetch(`${API_URL}api/sync`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        deviceId: deviceId,
-                        interventions: interventions,
-                        lastSync: lastSync
-                    })
-                });
-                
-                if (!response.ok) throw new Error("Erreur de synchronisation");
-                
-                const data = await response.json();
-                
-                // Update interventions with server data
-                interventions = data.interventions;
-                
-                // Update nextId
-                nextId = Math.max(...interventions.map(i => i.id), 0) + 1;
-                
-                // Update UI and storage
-                renderInterventionList();
-                updateLocalStorage();
-                updateStats();
-                
-                showSyncStatus("Données synchronisées avec succès", true);
-            } catch (error) {
-                console.error("Erreur de synchronisation:", error);
-                showSyncStatus("Échec de synchronisation", false);
-            } finally {
-                setTimeout(() => {
-                    syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Synchroniser';
-                }, 1000);
-            }
+            const statusEl = document.createElement('div');
+            statusEl.className = 'sync-status';
+            statusEl.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle sync-success' : 'fa-times-circle sync-error'}"></i> ${message}`;
+            
+            document.body.appendChild(statusEl);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                statusEl.remove();
+            }, 3000);
         }
-        
-        // Manual sync button
-        syncBtn.addEventListener('click', syncData);
-        
-        // Handle page reload - force logout
-        window.addEventListener('beforeunload', function() {
-            logout();
-        });
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
@@ -1890,56 +1815,6 @@
             filterStatus.addEventListener('change', renderInterventionList);
             searchInput.addEventListener('input', renderInterventionList);
         });
-        
-        // Show sync status
-        function showSyncStatus(message, isSuccess) {
-            // Remove existing status
-            const existingStatus = document.querySelector('.sync-status');
-            if (existingStatus) existingStatus.remove();
-            
-            const statusEl = document.createElement('div');
-            statusEl.className = 'sync-status';
-            statusEl.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle sync-success' : 'fa-times-circle sync-error'}"></i> ${message}`;
-            
-            document.body.appendChild(statusEl);
-            
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                statusEl.remove();
-            }, 3000);
-        }
-        
-        // Simulate API response for GitHub Pages environment
-        window.fetch = (function(originalFetch) {
-            return function(url, options) {
-                // Intercept API calls
-                if (url.includes('api/sync')) {
-                    return new Promise((resolve) => {
-                        // Simulate network delay
-                        setTimeout(() => {
-                            // Create a realistic response
-                            const response = new Response(JSON.stringify({
-                                status: 'success',
-                                message: 'Synchronisation réussie',
-                                interventions: interventions,
-                                lastSync: new Date().toISOString()
-                            }), {
-                                status: 200,
-                                statusText: 'OK',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            });
-                            
-                            resolve(response);
-                        }, 800);
-                    });
-                }
-                
-                // For other URLs, use the original fetch
-                return originalFetch.apply(this, arguments);
-            };
-        })(window.fetch);
     </script>
 </body>
 </html>
