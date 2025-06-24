@@ -1,96 +1,76 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<!-- Ajoutez ces scripts Firebase dans le <head> -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <!-- Ajout dans le CSS -->
+<style>
+    .email-btn {
+        background: linear-gradient(to right, #ff3333, #cc0000);
+        color: white;
+        font-weight: 700;
+        border: 1px solid #ff3333;
+    }
 
-<!-- Modifications dans le script principal -->
+    .email-btn:hover, .email-btn:active {
+        background: linear-gradient(to right, #cc0000, #990000);
+    }
+</style>
+
+<!-- Ajout dans le header-buttons (dans le header) -->
+<button class="email-btn" id="emailBtn">
+    <i class="fas fa-paper-plane"></i> <span>Envoyer</span>
+</button>
+
+<!-- Ajout dans le script principal -->
 <script>
-    // Configuration Firebase (remplacez par vos informations)
-    const firebaseConfig = {
-        apiKey: "VOTRE_API_KEY",
-        authDomain: "VOTRE_PROJET.firebaseapp.com",
-        databaseURL: "https://VOTRE_PROJET-default-rtdb.firebaseio.com",
-        projectId: "VOTRE_PROJET",
-        storageBucket: "VOTRE_PROJET.appspot.com",
-        messagingSenderId: "VOTRE_SENDER_ID",
-        appId: "VOTRE_APP_ID"
-    };
+    // Ajouter ceci dans les constantes en haut du script
+    const EMAIL_RECIPIENT = "hamadamohamedvth@gmail.com";
 
-    // Initialiser Firebase
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    let interventionsRef;
-    let isOnline = navigator.onLine;
+    // Ajouter ce bout de code après la déclaration des autres éléments DOM
+    const emailBtn = document.getElementById('emailBtn');
 
-    // Gestion de la connexion
-    loginBtn.addEventListener('click', async () => {
-        // ... code existant ...
+    // Fonction pour envoyer les interventions par email
+    function sendInterventionsByEmail() {
+        const matricule = document.getElementById('matricule').value;
         
-        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-            // Initialiser la synchronisation Firebase
-            interventionsRef = database.ref('interventions');
-            
-            // Charger les données depuis Firebase
-            interventionsRef.on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    interventions = data.interventions || [];
-                    nextId = data.nextId || 1;
-                    renderInterventionList();
-                    updateStats();
-                }
-            });
-            
-            // ... reste du code ...
+        if (!matricule) {
+            alert("Veuillez saisir votre matricule d'abord");
+            return;
         }
-    });
-
-    // Synchroniser les données avec Firebase
-    function syncWithFirebase() {
-        if (!isOnline) return;
         
-        interventionsRef.set({
-            interventions: interventions,
-            nextId: nextId
-        }).catch(error => {
-            console.error("Erreur de synchronisation:", error);
+        const userInterventions = interventions.filter(i => i.matricule === matricule);
+        
+        if (userInterventions.length === 0) {
+            alert("Aucune intervention trouvée pour ce matricule");
+            return;
+        }
+        
+        // Préparer le contenu de l'email
+        let emailSubject = `Interventions pour matricule ${matricule}`;
+        let emailBody = `Bonjour,\n\nVoici la liste des interventions pour le matricule ${matricule}:\n\n`;
+        
+        userInterventions.forEach(intervention => {
+            emailBody += `- Intervention #${intervention.id}: ${intervention.user}\n`;
+            emailBody += `  Type: ${intervention.interventionType}\n`;
+            emailBody += `  Maintenance: ${intervention.maintenanceType}\n`;
+            emailBody += `  Début: ${formatDate(intervention.start)}\n`;
+            emailBody += `  Fin: ${formatDate(intervention.end)}\n`;
+            emailBody += `  Équipements: ${intervention.equipment.join(', ')}\n\n`;
         });
+        
+        // Encoder pour l'URL
+        const encodedSubject = encodeURIComponent(emailSubject);
+        const encodedBody = encodeURIComponent(emailBody);
+        
+        // Créer le lien mailto
+        const mailtoLink = `mailto:${EMAIL_RECIPIENT}?subject=${encodedSubject}&body=${encodedBody}`;
+        
+        // Ouvrir le client de messagerie
+        window.location.href = mailtoLink;
     }
 
-    // Mettre à jour Firebase après chaque opération
-    function afterDataUpdate() {
-        updateLocalStorage();
-        renderInterventionList();
-        updateStats();
-        syncWithFirebase(); // Ajout de la synchronisation
-    }
-
-    // Gestion de la connexion réseau
-    window.addEventListener('online', () => {
-        isOnline = true;
-        syncWithFirebase();
-    });
-
-    window.addEventListener('offline', () => {
-        isOnline = false;
-    });
-
-    // Modifier toutes les opérations de données
-    interventionForm.addEventListener('submit', async (e) => {
-        // ... code existant ...
-        afterDataUpdate(); // Remplacer les appels existants
-    });
-
-    function deleteIntervention(id) {
-        // ... code existant ...
-        afterDataUpdate(); // Remplacer les appels existants
-    }
-
-    // ... dans l'importation Excel ...
-    afterDataUpdate(); // Remplacer les appels existants
-</script>   
+    // Ajouter l'écouteur d'événement
+    emailBtn.addEventListener('click', sendInterventionsByEmail);
+</script> 
    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SCAPCB Mobile</title>
