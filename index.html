@@ -1,77 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!-- Ajout dans le CSS -->
-<style>
-    .email-btn {
-        background: linear-gradient(to right, #ff3333, #cc0000);
-        color: white;
-        font-weight: 700;
-        border: 1px solid #ff3333;
-    }
-
-    .email-btn:hover, .email-btn:active {
-        background: linear-gradient(to right, #cc0000, #990000);
-    }
-</style>
-
-<!-- Ajout dans le header-buttons (dans le header) -->
-<button class="email-btn" id="emailBtn">
-    <i class="fas fa-paper-plane"></i> <span>Envoyer</span>
-</button>
-
-<!-- Ajout dans le script principal -->
-<script>
-    // Ajouter ceci dans les constantes en haut du script
-    const EMAIL_RECIPIENT = "hamadamohamedvth@gmail.com";
-
-    // Ajouter ce bout de code après la déclaration des autres éléments DOM
-    const emailBtn = document.getElementById('emailBtn');
-
-    // Fonction pour envoyer les interventions par email
-    function sendInterventionsByEmail() {
-        const matricule = document.getElementById('matricule').value;
-        
-        if (!matricule) {
-            alert("Veuillez saisir votre matricule d'abord");
-            return;
-        }
-        
-        const userInterventions = interventions.filter(i => i.matricule === matricule);
-        
-        if (userInterventions.length === 0) {
-            alert("Aucune intervention trouvée pour ce matricule");
-            return;
-        }
-        
-        // Préparer le contenu de l'email
-        let emailSubject = `Interventions pour matricule ${matricule}`;
-        let emailBody = `Bonjour,\n\nVoici la liste des interventions pour le matricule ${matricule}:\n\n`;
-        
-        userInterventions.forEach(intervention => {
-            emailBody += `- Intervention #${intervention.id}: ${intervention.user}\n`;
-            emailBody += `  Type: ${intervention.interventionType}\n`;
-            emailBody += `  Maintenance: ${intervention.maintenanceType}\n`;
-            emailBody += `  Début: ${formatDate(intervention.start)}\n`;
-            emailBody += `  Fin: ${formatDate(intervention.end)}\n`;
-            emailBody += `  Équipements: ${intervention.equipment.join(', ')}\n\n`;
-        });
-        
-        // Encoder pour l'URL
-        const encodedSubject = encodeURIComponent(emailSubject);
-        const encodedBody = encodeURIComponent(emailBody);
-        
-        // Créer le lien mailto
-        const mailtoLink = `mailto:${EMAIL_RECIPIENT}?subject=${encodedSubject}&body=${encodedBody}`;
-        
-        // Ouvrir le client de messagerie
-        window.location.href = mailtoLink;
-    }
-
-    // Ajouter l'écouteur d'événement
-    emailBtn.addEventListener('click', sendInterventionsByEmail);
-</script> 
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SCAPCB Mobile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -314,6 +244,14 @@
             font-weight: 700;
             border: 1px solid #0077ff;
         }
+
+        /* Nouveau style pour le bouton email */
+        .email-btn {
+            background: linear-gradient(to right, #00cc77, #00aa55);
+            color: white;
+            font-weight: 700;
+            border: 1px solid #00cc77;
+        }
         
         .header-buttons button i {
             font-size: 1.1rem;
@@ -343,6 +281,10 @@
         
         .sync-btn:hover, .sync-btn:active {
             background: linear-gradient(to right, #0055cc, #003399);
+        }
+
+        .email-btn:hover, .email-btn:active {
+            background: linear-gradient(to right, #00aa55, #008844);
         }
         
         .main-content {
@@ -918,7 +860,7 @@
     </style>
 </head>
 <body>
-<script src="storage.js"></script>    <div class="login-overlay" id="loginOverlay">
+    <div class="login-overlay" id="loginOverlay">
         <div class="login-form">
             <div class="logo">
                 <div class="logo-circle">
@@ -974,6 +916,10 @@
                 </button>
                 <button class="toggle-btn" id="toggleInterventions">
                     <i class="fas fa-eye-slash"></i> <span>Masquer</span>
+                </button>
+                <!-- Nouveau bouton pour envoyer par email -->
+                <button class="email-btn" id="sendEmail">
+                    <i class="fas fa-paper-plane"></i> <span>Envoyer</span>
                 </button>
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Déco</span>
@@ -1829,6 +1775,46 @@
                 statusEl.remove();
             }, 3000);
         }
+
+        // Fonction pour générer le contenu de l'email
+        function generateEmailContent() {
+            let content = "Rapport des interventions de maintenance:\n\n";
+            
+            interventions.forEach(intervention => {
+                content += `ID: ${intervention.id}\n`;
+                content += `Utilisateur: ${intervention.user}\n`;
+                content += `Matricule: ${intervention.matricule}\n`;
+                content += `Type: ${intervention.interventionType}\n`;
+                content += `Maintenance: ${intervention.maintenanceType}\n`;
+                content += `Statut: ${intervention.status}\n`;
+                content += `Début: ${formatDate(intervention.start)}\n`;
+                content += `Fin: ${formatDate(intervention.end)}\n`;
+                content += `Équipements: ${intervention.equipment.join(', ')}\n`;
+                content += `Description: ${intervention.description || 'Aucune'}\n`;
+                content += `\n--------------------------------\n\n`;
+            });
+            
+            return content;
+        }
+
+        // Fonction pour envoyer l'email
+        function sendEmail() {
+            if (interventions.length === 0) {
+                alert("Aucune intervention à envoyer!");
+                return;
+            }
+            
+            const subject = "Rapport des interventions de maintenance";
+            const body = generateEmailContent();
+            const email = "hamadamohamedvth@gmail.com";
+            
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = mailtoLink;
+        }
+
+        // Ajout du gestionnaire d'événement pour le bouton d'envoi d'email
+        document.getElementById('sendEmail').addEventListener('click', sendEmail);
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
