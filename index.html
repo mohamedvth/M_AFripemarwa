@@ -245,12 +245,26 @@
             border: 1px solid #0077ff;
         }
 
-        /* Nouveau style pour le bouton email */
         .email-btn {
             background: linear-gradient(to right, #00cc77, #00aa55);
             color: white;
             font-weight: 700;
             border: 1px solid #00cc77;
+        }
+
+        /* Nouveau style pour les boutons de partage */
+        .whatsapp-btn {
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: white;
+            font-weight: 700;
+            border: 1px solid #25D366;
+        }
+
+        .wifi-btn {
+            background: linear-gradient(to right, #FF9800, #F57C00);
+            color: white;
+            font-weight: 700;
+            border: 1px solid #FF9800;
         }
         
         .header-buttons button i {
@@ -285,6 +299,14 @@
 
         .email-btn:hover, .email-btn:active {
             background: linear-gradient(to right, #00aa55, #008844);
+        }
+
+        .whatsapp-btn:hover, .whatsapp-btn:active {
+            background: linear-gradient(to right, #128C7E, #0C6B5F);
+        }
+
+        .wifi-btn:hover, .wifi-btn:active {
+            background: linear-gradient(to right, #F57C00, #E65100);
         }
         
         .main-content {
@@ -821,10 +843,107 @@
             font-size: 0.85rem;
         }
         
+        /* Nouveau style pour le menu de partage */
+        .share-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .share-modal {
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 30px rgba(0, 119, 255, 0.4);
+            border: 2px solid #0077ff;
+            text-align: center;
+        }
+        
+        .share-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #0077ff;
+            font-weight: 700;
+        }
+        
+        .share-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .share-option {
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #444;
+        }
+        
+        .share-option:hover {
+            transform: translateY(-5px);
+            background: rgba(60, 60, 60, 0.9);
+            border-color: #0077ff;
+        }
+        
+        .share-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .share-label {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .whatsapp-share {
+            color: #25D366;
+        }
+        
+        .email-share {
+            color: #EA4335;
+        }
+        
+        .wifi-share {
+            color: #FF9800;
+        }
+        
+        .excel-share {
+            color: #21A366;
+        }
+        
+        .close-share {
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
         /* Mobile specific optimizations */
         @media (min-width: 768px) {
             .header-buttons {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
             
             .filter-bar {
@@ -845,6 +964,10 @@
             
             .list-section {
                 flex: 2;
+            }
+            
+            .share-options {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
@@ -917,9 +1040,9 @@
                 <button class="toggle-btn" id="toggleInterventions">
                     <i class="fas fa-eye-slash"></i> <span>Masquer</span>
                 </button>
-                <!-- Nouveau bouton pour envoyer par email -->
-                <button class="email-btn" id="sendEmail">
-                    <i class="fas fa-paper-plane"></i> <span>Envoyer</span>
+                <!-- Nouveau bouton pour partager -->
+                <button class="whatsapp-btn" id="shareBtn">
+                    <i class="fab fa-whatsapp"></i> <span>Partager</span>
                 </button>
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Déco</span>
@@ -1095,10 +1218,38 @@
         </footer>
     </div>
 
+    <!-- Overlay de partage -->
+    <div class="share-overlay" id="shareOverlay" style="display: none;">
+        <div class="share-modal">
+            <h2 class="share-title">Partager les interventions</h2>
+            <div class="share-options">
+                <div class="share-option" id="whatsappShare">
+                    <i class="fab fa-whatsapp share-icon whatsapp-share"></i>
+                    <span class="share-label">WhatsApp</span>
+                </div>
+                <div class="share-option" id="emailShare">
+                    <i class="fas fa-envelope share-icon email-share"></i>
+                    <span class="share-label">Email</span>
+                </div>
+                <div class="share-option" id="wifiShare">
+                    <i class="fas fa-wifi share-icon wifi-share"></i>
+                    <span class="share-label">WiFi Direct</span>
+                </div>
+                <div class="share-option" id="excelShare">
+                    <i class="fas fa-file-excel share-icon excel-share"></i>
+                    <span class="share-label">Excel</span>
+                </div>
+            </div>
+            <button class="close-share" id="closeShare">Fermer</button>
+        </div>
+    </div>
+
     <script>
         // Login credentials
         const ADMIN_USERNAME = "admin";
         const ADMIN_PASSWORD = "5513090807**Aa";
+		const ADMIN_USERNAME = "user";
+        const ADMIN_PASSWORD = "user";
         
         // DOM elements
         const loginOverlay = document.getElementById('loginOverlay');
@@ -1798,7 +1949,7 @@
         }
 
         // Fonction pour envoyer l'email
-        function sendEmail() {
+        function shareViaEmail() {
             if (interventions.length === 0) {
                 alert("Aucune intervention à envoyer!");
                 return;
@@ -1813,8 +1964,80 @@
             window.location.href = mailtoLink;
         }
 
-        // Ajout du gestionnaire d'événement pour le bouton d'envoi d'email
-        document.getElementById('sendEmail').addEventListener('click', sendEmail);
+        // Fonction pour partager via WhatsApp
+        function shareViaWhatsApp() {
+            if (interventions.length === 0) {
+                alert("Aucune intervention à partager!");
+                return;
+            }
+            
+            const text = generateEmailContent();
+            // WhatsApp impose une limite de 4096 caractères dans l'URL, donc on tronque si nécessaire
+            const maxLength = 4096 - 50; // Réduire pour la marge
+            let shareText = text;
+            if (text.length > maxLength) {
+                shareText = text.substring(0, maxLength) + "... [Tronqué]";
+            }
+
+            const encodedText = encodeURIComponent(shareText);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Fonction pour partager via WiFi (simulé)
+        function shareViaWiFi() {
+            if (interventions.length === 0) {
+                alert("Aucune intervention à partager!");
+                return;
+            }
+            
+            // Dans une application réelle, cette fonction utiliserait une API de partage WiFi
+            // Pour cette démo, nous allons simplement télécharger le fichier
+            exportExcelBtn.click();
+            showSyncStatus("Les interventions sont prêtes pour le transfert WiFi", true);
+        }
+
+        // Fonction pour exporter en Excel
+        function exportToExcel() {
+            exportExcelBtn.click();
+        }
+
+        // Gestion du menu de partage
+        const shareBtn = document.getElementById('shareBtn');
+        const shareOverlay = document.getElementById('shareOverlay');
+        const closeShare = document.getElementById('closeShare');
+        const whatsappShare = document.getElementById('whatsappShare');
+        const emailShare = document.getElementById('emailShare');
+        const wifiShare = document.getElementById('wifiShare');
+        const excelShare = document.getElementById('excelShare');
+
+        shareBtn.addEventListener('click', () => {
+            shareOverlay.style.display = 'flex';
+        });
+
+        closeShare.addEventListener('click', () => {
+            shareOverlay.style.display = 'none';
+        });
+
+        whatsappShare.addEventListener('click', () => {
+            shareOverlay.style.display = 'none';
+            shareViaWhatsApp();
+        });
+
+        emailShare.addEventListener('click', () => {
+            shareOverlay.style.display = 'none';
+            shareViaEmail();
+        });
+
+        wifiShare.addEventListener('click', () => {
+            shareOverlay.style.display = 'none';
+            shareViaWiFi();
+        });
+
+        excelShare.addEventListener('click', () => {
+            shareOverlay.style.display = 'none';
+            exportToExcel();
+        });
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
