@@ -224,7 +224,7 @@
             height: 100%;
         }
         
-        .export-btn, .import-btn, .logout-btn {
+        .export-btn, .logout-btn {
             background: linear-gradient(to right, #ffcc00, #ff9900);
             color: #222;
             font-weight: 700;
@@ -238,13 +238,6 @@
             border: 1px solid #444;
         }
         
-        .sync-btn {
-            background: linear-gradient(to right, #0077ff, #0055cc);
-            color: white;
-            font-weight: 700;
-            border: 1px solid #0077ff;
-        }
-
         .email-btn {
             background: linear-gradient(to right, #00cc77, #00aa55);
             color: white;
@@ -280,10 +273,6 @@
             background: linear-gradient(to right, #ff9900, #cc7a00);
         }
         
-        .import-btn:hover, .import-btn:active {
-            background: linear-gradient(to right, #ff9900, #cc7a00);
-        }
-        
         .toggle-btn:hover, .toggle-btn:active {
             background: linear-gradient(to right, #222, #111);
             color: #ffcc00;
@@ -293,10 +282,6 @@
             background: linear-gradient(to right, #ff9900, #cc7a00);
         }
         
-        .sync-btn:hover, .sync-btn:active {
-            background: linear-gradient(to right, #0055cc, #003399);
-        }
-
         .email-btn:hover, .email-btn:active {
             background: linear-gradient(to right, #00aa55, #008844);
         }
@@ -783,13 +768,6 @@
             background: linear-gradient(to right, #ff9900, #cc7a00) !important;
         }
         
-        .file-input-container {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-        
         .device-badge {
             background: rgba(0, 119, 255, 0.2);
             color: #0077ff;
@@ -1028,19 +1006,9 @@
                 <button class="export-btn" id="exportExcel">
                     <i class="fas fa-file-excel"></i> <span>Excel</span>
                 </button>
-                <div class="file-input-container">
-                    <button class="import-btn" id="importExcelBtn">
-                        <i class="fas fa-file-import"></i> <span>Importer</span>
-                    </button>
-                    <input type="file" id="importExcel" accept=".xlsx, .xls" style="display: none;">
-                </div>
-                <button class="sync-btn" id="syncBtn">
-                    <i class="fas fa-sync-alt"></i> <span>Sync</span>
-                </button>
                 <button class="toggle-btn" id="toggleInterventions">
                     <i class="fas fa-eye-slash"></i> <span>Masquer</span>
                 </button>
-                <!-- Nouveau bouton pour partager -->
                 <button class="whatsapp-btn" id="shareBtn">
                     <i class="fab fa-whatsapp"></i> <span>Partager</span>
                 </button>
@@ -1259,9 +1227,6 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const passwordToggle = document.getElementById('passwordToggle');
         const sessionStatus = document.getElementById('sessionStatus');
-        const syncBtn = document.getElementById('syncBtn');
-        const importExcelBtn = document.getElementById('importExcelBtn');
-        const importExcelInput = document.getElementById('importExcel');
         
         // Initialize variables
         let interventions = [];
@@ -1836,94 +1801,6 @@
             // Export to Excel file
             XLSX.writeFile(workbook, "interventions_maintenance.xlsx");
         });
-        
-        // Import Excel functionality
-        importExcelBtn.addEventListener('click', () => {
-            importExcelInput.click();
-        });
-        
-        importExcelInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                
-                // Get first worksheet
-                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet);
-                
-                if (jsonData.length === 0) {
-                    alert("Le fichier Excel est vide ou ne contient pas de données valides");
-                    return;
-                }
-                
-                // Map Excel data to intervention format
-                const importedInterventions = jsonData.map(row => {
-                    // Parse dates from strings
-                    const parseDate = (dateStr) => {
-                        if (!dateStr) return null;
-                        return new Date(dateStr).toISOString();
-                    };
-                    
-                    return {
-                        id: row.ID || nextId++,
-                        user: row.Utilisateur,
-                        matricule: row.Matricule,
-                        interventionType: row["Type d'intervention"],
-                        maintenanceType: row["Type de maintenance"],
-                        priority: row.Priorité,
-                        status: row.Statut,
-                        description: row.Description,
-                        start: parseDate(row["Début d'intervention"]) || new Date().toISOString(),
-                        end: parseDate(row["Fin d'intervention"]) || new Date().toISOString(),
-                        equipment: row.Équipements ? row.Équipements.split(",").map(eq => eq.trim()) : [],
-                        createdAt: parseDate(row["Date de création"]) || new Date().toISOString(),
-                        createdBy: row["Créé par"] || deviceId,
-                        updatedAt: parseDate(row["Dernière mise à jour"]),
-                        updatedBy: row["Mis à jour par"] || null
-                    };
-                });
-                
-                // Merge with existing interventions
-                interventions = [...interventions, ...importedInterventions];
-                
-                // Update nextId
-                nextId = Math.max(...interventions.map(i => i.id)) + 1;
-                
-                // Update UI and storage
-                renderInterventionList();
-                updateLocalStorage();
-                updateStats();
-                showSyncStatus(`${importedInterventions.length} interventions importées avec succès`, true);
-                
-                // Reset file input
-                importExcelInput.value = '';
-            };
-            
-            reader.readAsArrayBuffer(file);
-        });
-        
-        // Show sync status
-        function showSyncStatus(message, isSuccess) {
-            // Remove existing status
-            const existingStatus = document.querySelector('.sync-status');
-            if (existingStatus) existingStatus.remove();
-            
-            const statusEl = document.createElement('div');
-            statusEl.className = 'sync-status';
-            statusEl.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle sync-success' : 'fa-times-circle sync-error'}"></i> ${message}`;
-            
-            document.body.appendChild(statusEl);
-            
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                statusEl.remove();
-            }, 3000);
-        }
 
         // Fonction pour générer le contenu de l'email
         function generateEmailContent() {
@@ -2036,6 +1913,24 @@
             shareOverlay.style.display = 'none';
             exportToExcel();
         });
+        
+        // Show sync status
+        function showSyncStatus(message, isSuccess) {
+            // Remove existing status
+            const existingStatus = document.querySelector('.sync-status');
+            if (existingStatus) existingStatus.remove();
+            
+            const statusEl = document.createElement('div');
+            statusEl.className = 'sync-status';
+            statusEl.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle sync-success' : 'fa-times-circle sync-error'}"></i> ${message}`;
+            
+            document.body.appendChild(statusEl);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                statusEl.remove();
+            }, 3000);
+        }
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
