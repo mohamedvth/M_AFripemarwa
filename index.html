@@ -260,13 +260,6 @@
             border: 1px solid #FF9800;
         }
         
-        .github-btn {
-            background: linear-gradient(to right, #6e5494, #4078c0);
-            color: white;
-            font-weight: 700;
-            border: 1px solid #6e5494;
-        }
-        
         .header-buttons button i {
             font-size: 1.1rem;
         }
@@ -299,10 +292,6 @@
 
         .wifi-btn:hover, .wifi-btn:active {
             background: linear-gradient(to right, #F57C00, #E65100);
-        }
-        
-        .github-btn:hover, .github-btn:active {
-            background: linear-gradient(to right, #5d3f7d, #305e9e);
         }
         
         .main-content {
@@ -901,10 +890,21 @@
             font-weight: 600;
         }
         
-        .whatsapp-share { color: #25D366; }
-        .email-share { color: #EA4335; }
-        .wifi-share { color: #FF9800; }
-        .excel-share { color: #21A366; }
+        .whatsapp-share {
+            color: #25D366;
+        }
+        
+        .email-share {
+            color: #EA4335;
+        }
+        
+        .wifi-share {
+            color: #FF9800;
+        }
+        
+        .excel-share {
+            color: #21A366;
+        }
         
         .close-share {
             background: #666;
@@ -918,61 +918,10 @@
             width: 100%;
         }
         
-        /* GitHub Styles */
-        .github-indicator {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            padding: 8px 15px;
-            border-radius: 30px;
-            background: rgba(20, 20, 20, 0.95);
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 1000;
-            border: 1px solid #333;
-            border-left: 5px solid #6cc644;
-            font-size: 0.95rem;
-            max-width: 90%;
-        }
-        
-        .github-success { color: #6cc644; }
-        .github-error { color: #bd2c00; }
-        .github-pending { color: #ffcc00; }
-        
-        .github-form {
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 30px rgba(108, 198, 68, 0.4);
-            border: 2px solid #6cc644;
-            text-align: center;
-        }
-        
-        .github-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #6cc644;
-            font-weight: 700;
-        }
-        
-        .github-link {
-            color: #4078c0;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .github-link:hover {
-            text-decoration: underline;
-        }
-        
         /* Mobile specific optimizations */
         @media (min-width: 768px) {
             .header-buttons {
-                grid-template-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
             
             .filter-bar {
@@ -1062,9 +1011,6 @@
                 </button>
                 <button class="whatsapp-btn" id="shareBtn">
                     <i class="fab fa-whatsapp"></i> <span>Partager</span>
-                </button>
-                <button class="github-btn" id="githubSyncBtn">
-                    <i class="fab fa-github"></i> <span>GitHub</span>
                 </button>
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Déco</span>
@@ -1266,56 +1212,10 @@
         </div>
     </div>
 
-    <!-- GitHub Sync Overlay -->
-    <div class="share-overlay" id="githubOverlay" style="display: none;">
-        <div class="github-form">
-            <h2 class="github-title">Synchroniser avec GitHub</h2>
-            
-            <div class="login-input-group">
-                <label for="githubToken"><i class="fas fa-key"></i> Token GitHub</label>
-                <input type="password" id="githubToken" placeholder="Entrez votre token d'accès GitHub">
-            </div>
-            
-            <div class="login-input-group">
-                <label for="githubRepo"><i class="fas fa-code-branch"></i> Dépôt GitHub</label>
-                <input type="text" id="githubRepo" value="mohamedvth/scapcbmaintenancehamada" readonly>
-                <p style="margin-top: 8px; font-size: 0.85rem;">
-                    <a href="https://github.com/mohamedvth/scapcbmaintenancehamada" target="_blank" class="github-link">
-                        <i class="fab fa-github"></i> Voir le dépôt
-                    </a>
-                </p>
-            </div>
-            
-            <div class="login-input-group">
-                <label for="githubBranch"><i class="fas fa-code-branch"></i> Branche</label>
-                <input type="text" id="githubBranch" value="main" readonly>
-            </div>
-            
-            <button class="login-btn" id="saveToGitHubBtn">
-                <i class="fab fa-github"></i> Sauvegarder sur GitHub
-            </button>
-            
-            <div class="login-error" id="githubError" style="display: none;"></div>
-            
-            <div class="security-note">
-                <i class="fas fa-info-circle"></i> Le token nécessite l'autorisation "repo" pour écrire dans le dépôt
-            </div>
-            
-            <button class="close-share" id="closeGitHub">Fermer</button>
-        </div>
-    </div>
-
     <script>
         // Login credentials
         const ADMIN_USERNAME = "admin";
         const ADMIN_PASSWORD = "5513090807**Aa";
-        
-        // GitHub Configuration
-        const GITHUB_OWNER = 'mohamedvth';
-        const GITHUB_REPO = 'scapcbmaintenancehamada';
-        const GITHUB_BRANCH = 'main';
-        const GITHUB_FILE_PATH = 'interventions.json';
-        const GITHUB_COMMIT_MESSAGE = 'Mise à jour des interventions via SCAPCB';
         
         // DOM elements
         const loginOverlay = document.getElementById('loginOverlay');
@@ -1327,14 +1227,6 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const passwordToggle = document.getElementById('passwordToggle');
         const sessionStatus = document.getElementById('sessionStatus');
-        const githubSyncBtn = document.getElementById('githubSyncBtn');
-        const githubOverlay = document.getElementById('githubOverlay');
-        const closeGitHub = document.getElementById('closeGitHub');
-        const saveToGitHubBtn = document.getElementById('saveToGitHubBtn');
-        const githubTokenInput = document.getElementById('githubToken');
-        const githubRepoInput = document.getElementById('githubRepo');
-        const githubBranchInput = document.getElementById('githubBranch');
-        const githubError = document.getElementById('githubError');
         
         // Initialize variables
         let interventions = [];
@@ -2021,144 +1913,6 @@
             shareOverlay.style.display = 'none';
             exportToExcel();
         });
-        
-        // GitHub sync functionality
-        githubSyncBtn.addEventListener('click', () => {
-            githubOverlay.style.display = 'flex';
-            githubRepoInput.value = `${GITHUB_OWNER}/${GITHUB_REPO}`;
-            githubBranchInput.value = GITHUB_BRANCH;
-            githubError.style.display = 'none';
-        });
-        
-        closeGitHub.addEventListener('click', () => {
-            githubOverlay.style.display = 'none';
-        });
-        
-        saveToGitHubBtn.addEventListener('click', async () => {
-            const token = githubTokenInput.value.trim();
-            const repoInput = githubRepoInput.value.trim();
-            const branch = githubBranchInput.value.trim() || 'main';
-            
-            if (!token) {
-                showGitHubError('Le token GitHub est requis');
-                return;
-            }
-            
-            if (!repoInput) {
-                showGitHubError('Le dépôt GitHub est requis');
-                return;
-            }
-            
-            // Parse owner and repo from input
-            const [owner, repo] = repoInput.split('/');
-            if (!owner || !repo) {
-                showGitHubError('Format de dépôt invalide. Utilisez: owner/repo');
-                return;
-            }
-            
-            githubError.style.display = 'none';
-            saveToGitHubBtn.disabled = true;
-            saveToGitHubBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> En cours...';
-            
-            try {
-                await saveInterventionsToGitHub(owner, repo, branch, token);
-                githubOverlay.style.display = 'none';
-                showGitHubStatus('Synchronisation GitHub réussie', true);
-            } catch (error) {
-                console.error('GitHub Error:', error);
-                showGitHubError(`Erreur GitHub: ${error.message}`);
-            } finally {
-                saveToGitHubBtn.disabled = false;
-                saveToGitHubBtn.innerHTML = '<i class="fab fa-github"></i> Sauvegarder sur GitHub';
-            }
-        });
-        
-        function showGitHubError(message) {
-            githubError.textContent = message;
-            githubError.style.display = 'block';
-        }
-        
-        function showGitHubStatus(message, isSuccess) {
-            // Remove existing indicator
-            const existingIndicator = document.querySelector('.github-indicator');
-            if (existingIndicator) existingIndicator.remove();
-            
-            const indicator = document.createElement('div');
-            indicator.className = 'github-indicator';
-            indicator.innerHTML = `<i class="fab fa-github ${isSuccess ? 'github-success' : 'github-error'}"></i> ${message}`;
-            
-            document.body.appendChild(indicator);
-            
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                indicator.remove();
-            }, 5000);
-        }
-        
-        async function saveInterventionsToGitHub(owner, repo, branch, token) {
-            // Create GitHub API URL
-            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${GITHUB_FILE_PATH}`;
-            
-            // Prepare file content
-            const appData = {
-                interventions: interventions,
-                nextId: nextId,
-                updatedAt: new Date().toISOString()
-            };
-            
-            const content = JSON.stringify(appData, null, 2);
-            const encodedContent = btoa(unescape(encodeURIComponent(content)));
-            
-            // Check if file exists to get SHA for update
-            let sha = null;
-            try {
-                const existingFile = await fetch(apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (existingFile.ok) {
-                    const fileData = await existingFile.json();
-                    sha = fileData.sha;
-                }
-            } catch (error) {
-                console.log('File does not exist or could not be accessed, creating new file');
-            }
-            
-            // Create request body
-            const body = {
-                message: GITHUB_COMMIT_MESSAGE,
-                content: encodedContent,
-                branch: branch
-            };
-            
-            // Add SHA if we're updating an existing file
-            if (sha) {
-                body.sha = sha;
-            }
-            
-            // Save to GitHub
-            const response = await fetch(apiUrl, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            });
-            
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Échec de la sauvegarde sur GitHub');
-            }
-            
-            const result = await response.json();
-            return result;
-        }
         
         // Show sync status
         function showSyncStatus(message, isSuccess) {
