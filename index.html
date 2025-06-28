@@ -1,6 +1,136 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
+<!-- Ajoutez ces scripts dans le <head> -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+<!-- Remplacez le script existant par ce code modifié -->
+<script>
+    // Configuration Firebase (à remplacer par votre config)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCvMFXC4eSZ1PufU5bh_zhnmhJaUN_CJ_s",
+        authDomain: "akekemld.firebaseapp.com",
+        projectId: "akekemld",
+        storageBucket: "akekemld.firebasestorage.app",
+        messagingSenderId: "143116802875",
+        appId: "1:143116802875:web:e0a61cac3559df321cb51e"
+    };
+
+    // Initialiser Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // ... (le reste du code existant)
+
+    // Modifier la fonction de login
+    loginBtn.addEventListener('click', async () => {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        
+        try {
+            // Authentification avec Firebase
+            await auth.signInWithEmailAndPassword(username, password);
+            
+            isLoggedIn = true;
+            sessionStatus.textContent = "Connecté";
+            
+            // Charger les données depuis Firestore
+            await loadFromFirestore();
+            
+            loginOverlay.style.display = 'none';
+            mainApp.style.display = 'block';
+            renderEquipmentList();
+            renderInterventionList();
+            updateStats();
+            
+        } catch (error) {
+            console.error("Erreur de connexion:", error);
+            loginError.textContent = error.message || "Identifiants incorrects";
+            loginError.style.display = 'block';
+        }
+    });
+
+    // Nouvelle fonction: Charger depuis Firestore
+    async function loadFromFirestore() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const snapshot = await db.collection('interventions').get();
+        interventions = [];
+        let maxId = 0;
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            interventions.push(data);
+            if (data.id > maxId) maxId = data.id;
+        });
+
+        nextId = maxId + 1;
+    }
+
+    // Modifier la soumission du formulaire
+    interventionForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // ... (récupération des données du formulaire)
+        
+        try {
+            const user = auth.currentUser;
+            if (!user) throw new Error("Non authentifié");
+            
+            if (isEditing && id) {
+                // Mise à jour dans Firestore
+                await db.collection('interventions').doc(id.toString()).update({
+                    // ... champs à mettre à jour
+                });
+            } else {
+                // Création dans Firestore
+                await db.collection('interventions').doc(newIntervention.id.toString()).set(newIntervention);
+            }
+            
+            // Synchroniser les données locales
+            await loadFromFirestore();
+            showSyncStatus("Synchronisation réussie", true);
+            
+        } catch (error) {
+            console.error("Erreur de synchronisation:", error);
+            showSyncStatus("Échec de la synchronisation", false);
+        }
+        
+        // ... (rester du code)
+    });
+
+    // Modifier la suppression
+    async function deleteIntervention(id) {
+        try {
+            await db.collection('interventions').doc(id.toString()).delete();
+            await loadFromFirestore();
+            showSyncStatus("Suppression synchronisée", true);
+        } catch (error) {
+            console.error("Erreur de suppression:", error);
+            showSyncStatus("Échec de la suppression", false);
+        }
+    }
+
+    // Ajouter un observateur d'authentification
+    auth.onAuthStateChanged(user => {
+        if (!user) {
+            logout();
+        }
+    });
+
+    // Modifier la fonction de logout
+    function logout() {
+        auth.signOut();
+        // ... (rester du code existant)
+    }
+</script>
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SCAPCB Mobile</title>
