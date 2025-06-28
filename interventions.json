@@ -1,0 +1,158 @@
+{
+  "interventions": [
+    {
+      "id": 1,
+      "user": "Mohamed hamada",
+      "matricule": "1808",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "high",
+      "status": "completed",
+      "description": "défaut blocage pressostat chaudiėre\n/mauvais serrage electrique",
+      "start": "2025-06-13T12:04",
+      "end": "2025-06-13T12:42",
+      "equipment": [
+        "chaudiėre n2"
+      ],
+      "createdAt": "2025-06-23T02:44:46.473Z",
+      "createdBy": "device-uo69pj0cn",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "id": 2,
+      "user": "Mohamed hamada",
+      "matricule": "1808",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "high",
+      "status": "completed",
+      "description": "Séchage de l'écran du compresseur en raison d'une fuite d'eau GA11+GA22",
+      "start": "2025-06-17T17:20",
+      "end": "2025-06-17T17:50",
+      "equipment": [
+        "Compresseur GA11+GA22"
+      ],
+      "createdAt": "2025-06-23T02:48:13.065Z",
+      "createdBy": "device-uo69pj0cn",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "id": 3,
+      "user": "Mohamed hamada",
+      "matricule": "1808",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "high",
+      "status": "completed",
+      "description": "Incendie de batterie de condensateur tabeau TGBT",
+      "start": "2025-06-14T13:05",
+      "end": "2025-06-14T13:25",
+      "equipment": [
+        "Tabeau capcondo TGBT"
+      ],
+      "createdAt": "2025-06-24T00:46:35.944Z",
+      "createdBy": "device-4388mk45z",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "id": 4,
+      "user": "agent capcondo",
+      "matricule": "Externe ",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "high",
+      "status": "completed",
+      "description": "Remplacer la batterie du condensateur endommagée",
+      "start": "2025-06-18T10:48",
+      "end": "2025-06-18T12:18",
+      "equipment": [
+        "tableau capcodo TGBT"
+      ],
+      "createdAt": "2025-06-24T00:49:21.169Z",
+      "createdBy": "device-4388mk45z",
+      "updatedAt": "2025-06-24T00:51:27.041Z",
+      "updatedBy": "device-4388mk45z"
+    },
+    {
+      "id": 5,
+      "user": "Mohamed hamada",
+      "matricule": "1808",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "low",
+      "status": "completed",
+      "description": "Éclairage  extérieur ",
+      "start": "2025-06-24T12:06",
+      "end": "2025-06-24T16:26",
+      "equipment": [
+        "Éclairage extérieur"
+      ],
+      "createdAt": "2025-06-24T15:27:18.745Z",
+      "createdBy": "device-shu83zj2p",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "id": 6,
+      "user": "Mohamed hamada",
+      "matricule": "1808",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "medium",
+      "status": "completed",
+      "description": "Réparation de stabilisateur de laboratoire ",
+      "start": "2025-06-25T15:00",
+      "end": "2025-06-25T15:33",
+      "equipment": [
+        "stabilisateur laboratoire"
+      ],
+      "createdAt": "2025-06-25T14:34:08.390Z",
+      "createdBy": "device-j7iijxz98",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "id": 7,
+      "user": "Mohamed hamada",
+      "matricule": "1808",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "high",
+      "status": "completed",
+      "description": "Netoyage machine jet encre linx ",
+      "start": "2025-06-25T18:02",
+      "end": "2025-06-25T18:10",
+      "equipment": [
+        "Jets n 11"
+      ],
+      "createdAt": "2025-06-25T17:11:00.524Z",
+      "createdBy": "device-zqh34nncm",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "id": 8,
+      "user": "Mohamed hamada",
+      "matricule": "1808",
+      "interventionType": "electrique",
+      "maintenanceType": "corective",
+      "priority": "low",
+      "status": "completed",
+      "description": "Assemblage de moteur monte charge fuit aseptique et branchement electrique ",
+      "start": "2025-06-27T12:42",
+      "end": "2025-06-27T15:10",
+      "equipment": [
+        "Machine debotage"
+      ],
+      "createdAt": "2025-06-27T15:43:10.791Z",
+      "createdBy": "device-edsrc8xhj",
+      "updatedAt": "2025-06-27T15:43:51.302Z",
+      "updatedBy": "device-edsrc8xhj"
+    }
+  ],
+  "nextId": 9,
+  "updatedAt": "2025-06-28T18:25:57.022Z"
+}
