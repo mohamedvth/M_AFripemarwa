@@ -1,1994 +1,381 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
-
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCAPCB Mobile</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♻️ M_A Fripe Super Fripe - Mode Éthique & Tendance Pour Toute La Famille</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
     <style>
-        * {
+        /* CSS pour le style et la mise en page */
+        :root {
+            /* Variables de couleur pour une modification facile */
+            --primary-color: #3d994e; /* Vert forêt/nature plus vif */
+            --secondary-color: #fcf8f4; /* Couleur de fond clair (beige doux) */
+            --accent-color: #e57373; /* Rouge-corail pour l'accent (CTA) */
+            --text-color: #333;
+            --white-color: #fff;
+            --footer-bg: #2c3e50; /* Bleu foncé/gris anthracite pour un footer élégant */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Police moderne pour le corps */
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
         
-        body {
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-            color: #fff;
-            min-height: 100vh;
-            padding: 10px;
-            position: relative;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 204, 0, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 119, 255, 0.05) 0%, transparent 20%);
-            touch-action: manipulation;
-        }
-        
-        /* Industrial texture overlay */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.9)),
-                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffcc00' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            background-size: cover;
-            z-index: -1;
-        }
-        
-        /* Login overlay */
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            padding: 15px;
-        }
-        
-        .login-form {
-            background: rgba(20, 20, 20, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 0 30px rgba(255, 204, 0, 0.4);
-            border: 2px solid #ffcc00;
-            text-align: center;
-        }
-        
-        .login-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #ffcc00;
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-        
-        .login-input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        
-        .login-input-group label {
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #ddd;
-            font-size: 1rem;
-        }
-        
-        .login-input-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(30, 30, 30, 0.95);
-            color: white;
-            font-size: 1rem;
-            border: 1px solid #444;
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
-        }
-        
-        .login-input-group input:focus {
-            outline: 2px solid #ffcc00;
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
-        }
-        
-        .login-btn {
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-            color: #222;
-            font-weight: 700;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            width: 100%;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(255, 204, 0, 0.3);
-        }
-        
-        .login-btn:hover, .login-btn:active {
-            background: linear-gradient(to right, #ff9900, #cc7a00);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
+        /* Conteneur principal pour centrer le contenu */
         .container {
-            max-width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 10px;
-            display: none; /* Hidden until login */
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(15, 15, 15, 0.95);
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #333;
-            border-bottom: 3px solid #ffcc00;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            flex-direction: column;
-        }
-        
-        .logo-circle {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(45deg, #0077ff, #0055cc);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            box-shadow: 0 0 20px rgba(0, 119, 255, 0.6);
-            border: 2px solid #0077ff;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .logo-circle::after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.3) 100%);
-        }
-        
-        .logo-text {
-            font-size: 2.2rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(0, 119, 255, 0.8);
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            color: #ddd;
-            margin-top: 8px;
-            line-height: 1.5;
-            font-weight: 500;
-        }
-        
-        .header-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .header-buttons button {
-            padding: 10px;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            text-align: center;
-            height: 100%;
-        }
-        
-        .export-btn, .logout-btn {
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-            color: #222;
-            font-weight: 700;
-            border: 1px solid #ffcc00;
-        }
-        
-        .toggle-btn {
-            background: linear-gradient(to right, #333, #222);
-            color: #ffcc00;
-            font-weight: 700;
-            border: 1px solid #444;
-        }
-        
-        .email-btn {
-            background: linear-gradient(to right, #00cc77, #00aa55);
-            color: white;
-            font-weight: 700;
-            border: 1px solid #00cc77;
+            padding: 0 20px;
         }
 
-        /* Nouveau style pour les boutons de partage */
-        .whatsapp-btn {
-            background: linear-gradient(to right, #25D366, #128C7E);
-            color: white;
-            font-weight: 700;
-            border: 1px solid #25D366;
-        }
-
-        .wifi-btn {
-            background: linear-gradient(to right, #FF9800, #F57C00);
-            color: white;
-            font-weight: 700;
-            border: 1px solid #FF9800;
-        }
-        
-        .header-buttons button i {
-            font-size: 1.1rem;
-        }
-        
-        .header-buttons button:hover, .header-buttons button:active {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .export-btn:hover, .export-btn:active {
-            background: linear-gradient(to right, #ff9900, #cc7a00);
-        }
-        
-        .toggle-btn:hover, .toggle-btn:active {
-            background: linear-gradient(to right, #222, #111);
-            color: #ffcc00;
-        }
-        
-        .logout-btn:hover, .logout-btn:active {
-            background: linear-gradient(to right, #ff9900, #cc7a00);
-        }
-        
-        .email-btn:hover, .email-btn:active {
-            background: linear-gradient(to right, #00aa55, #008844);
-        }
-
-        .whatsapp-btn:hover, .whatsapp-btn:active {
-            background: linear-gradient(to right, #128C7E, #0C6B5F);
-        }
-
-        .wifi-btn:hover, .wifi-btn:active {
-            background: linear-gradient(to right, #F57C00, #E65100);
-        }
-        
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        
-        .form-section, .list-section {
-            background: rgba(20, 20, 20, 0.95);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
-            border: 1px solid #333;
-            border-top: 3px solid #ffcc00;
-        }
-        
-        .section-title {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ffcc00;
-            color: #ddd;
-            display: flex;
-            align-items: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: #ffcc00;
-            font-size: 1.2rem;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: #ddd;
-            font-size: 0.95rem;
-        }
-        
-        input, select, textarea, button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(30, 30, 30, 0.95);
-            color: white;
-            font-size: 1rem;
-            border: 1px solid #444;
-        }
-        
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: 2px solid #ffcc00;
-            background: rgba(40, 40, 40, 0.95);
-            box-shadow: 0 0 8px rgba(255, 204, 0, 0.3);
-        }
-        
-        button {
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-            color: #222;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-            border: 1px solid #ffcc00;
-        }
-        
-        button:hover, button:active {
-            background: linear-gradient(to right, #ff9900, #cc7a00);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        }
-        
-        .equipment-list {
-            margin: 10px 0;
-            max-height: 120px;
-            overflow-y: auto;
-            background: rgba(25, 25, 25, 0.95);
-            border-radius: 8px;
-            padding: 10px;
-            border: 1px solid #333;
-        }
-        
-        .equipment-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            border-bottom: 1px solid #444;
-            background: rgba(35, 35, 35, 0.9);
-            margin-bottom: 6px;
-            border-radius: 6px;
-            border-left: 3px solid #ffcc00;
-            font-size: 0.9rem;
-        }
-        
-        .equipment-item:last-child {
-            margin-bottom: 0;
-            border-bottom: none;
-        }
-        
-        .remove-equipment {
-            background: #ffcc00;
-            color: #222;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        
-        .remove-equipment:hover, .remove-equipment:active {
-            background: #ff9900;
-        }
-        
-        .intervention-list {
-            margin-top: 15px;
-        }
-        
-        .intervention-card {
-            background: rgba(25, 25, 25, 0.95);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 5px solid #0077ff;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-            border-top: 1px solid #333;
+        /* --- En-tête (Héros/Bannière) --- */
+        .hero-banner {
+            background-image: url('B.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--white-color);
+            text-align: center;
+            padding: 80px 20px;
             position: relative;
         }
-        
-        .intervention-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, #0077ff, #0055cc);
-        }
-        
-        .intervention-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
-        }
-        
-        .intervention-header {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 12px;
-        }
-        
-        .intervention-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-        
-        .intervention-type {
-            padding: 5px 12px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-right: 8px;
-            margin-bottom: 5px;
-        }
-        
-        .electrique { background: #0077ff; }
-        .mecanique { background: #ffcc00; color: #222; }
-        .servise-general { background: #00cc77; }
-        .preventif { background: #ffcc00; color: #222; }
-        .corective { background: #0077ff; }
-        .annule { background: #666; }
-        
-        .intervention-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        
-        .detail-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .detail-label {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-bottom: 4px;
-        }
-        
-        .detail-value {
-            font-weight: 600;
-            color: #fff;
-            font-size: 1rem;
-        }
-        
-        .intervention-description {
-            margin: 12px 0;
-            padding: 12px;
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 8px;
-            border-left: 3px solid #ffcc00;
-            font-size: 0.95rem;
-        }
-        
-        .description-label {
-            font-weight: 600;
-            color: #ffcc00;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-        }
-        
-        .intervention-equipment {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #444;
-            font-size: 0.95rem;
-        }
-        
-        .equipment-tag {
-            display: inline-block;
-            background: rgba(0, 119, 255, 0.2);
-            color: #0077ff;
-            padding: 5px 12px;
-            border-radius: 30px;
-            margin: 4px 4px 4px 0;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border: 1px solid rgba(0, 119, 255, 0.4);
-        }
-        
-        .card-footer {
-            display: flex;
-            flex-direction: column;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #444;
-        }
-        
-        .intervention-id {
-            color: #999;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .delete-intervention, .edit-intervention {
-            background: #ffcc00;
-            color: #222;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s;
-            flex: 1;
-            justify-content: center;
-            font-size: 0.95rem;
-        }
-        
-        .edit-intervention {
-            background: #0077ff;
-            color: white;
-        }
-        
-        .delete-intervention:hover, .delete-intervention:active {
-            background: #ff9900;
-            transform: translateY(-2px);
-        }
-        
-        .edit-intervention:hover, .edit-intervention:active {
-            background: #0055cc;
-            transform: translateY(-2px);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 15px;
-            color: #aaa;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(15, 15, 15, 0.95);
-            border-radius: 10px;
-            border-top: 3px solid #ffcc00;
-        }
-        
-        .copyright {
-            color: #ffcc00;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        
-        .stats-bar {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .stat-card {
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            background: rgba(30, 30, 30, 0.9);
-            border: 1px solid #444;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffcc00;
-            margin: 8px 0;
-            text-shadow: 0 0 8px rgba(255, 204, 0, 0.3);
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-        
-        .no-interventions {
-            text-align: center;
+
+        .hero-overlay {
+            background-color: rgba(0, 0, 0, 0.55); /* Assombrir un peu plus */
             padding: 30px;
-            font-size: 1.1rem;
-            color: #999;
-            background: rgba(25, 25, 25, 0.8);
             border-radius: 10px;
-            border: 2px dashed #444;
+            display: inline-block; /* Pour que le background-color s'applique bien */
         }
-        
-        /* Industrial warning strips */
-        .industrial-warning {
-            height: 8px;
-            background: repeating-linear-gradient(
-                45deg,
-                #ffcc00,
-                #ffcc00 8px,
-                #000 8px,
-                #000 16px
-            );
-            margin-bottom: 15px;
-            border-radius: 4px;
-        }
-        
-        .login-error {
-            color: #ff3333;
-            margin-top: 12px;
-            font-weight: 600;
-            display: none;
-            font-size: 0.95rem;
-        }
-        
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 38px;
-            cursor: pointer;
-            color: #999;
-        }
-        
-        .security-note {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: #999;
-            text-align: center;
-        }
-        
-        .sync-status {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            padding: 8px 15px;
-            border-radius: 30px;
-            background: rgba(20, 20, 20, 0.95);
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 1000;
-            border: 1px solid #333;
-            border-left: 5px solid #ffcc00;
-            font-size: 0.95rem;
-            max-width: 90%;
-        }
-        
-        .sync-success {
-            color: #2ecc71;
-        }
-        
-        .sync-error {
-            color: #ff3333;
-        }
-        
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        
-        .status-planned { background: #ffcc00; color: #222; }
-        .status-in-progress { background: #0077ff; }
-        .status-completed { background: #00cc77; }
-        .status-canceled { background: #666; }
-        
-        .filter-bar {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .filter-bar select, .filter-bar input {
-            min-width: 0;
-        }
-        
-        .priority-high { border-left: 5px solid #ff3333; }
-        .priority-medium { border-left: 5px solid #ffcc00; }
-        .priority-low { border-left: 5px solid #0077ff; }
-        
-        .form-buttons {
-            display: flex;
-            gap: 8px;
-            justify-content: space-between;
-        }
-        
-        .cancel-btn {
-            background: #666 !important;
-        }
-        
-        .update-btn {
-            background: linear-gradient(to right, #ff9900, #cc7a00) !important;
-        }
-        
-        .device-badge {
-            background: rgba(0, 119, 255, 0.2);
-            color: #0077ff;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            margin-left: 6px;
-            border: 1px solid rgba(0, 119, 255, 0.5);
-        }
-        
-        /* Industrial elements */
-        .rivet {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #666;
+
+        .logo {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
             border-radius: 50%;
-            box-shadow: inset 0 0 4px rgba(0,0,0,0.5);
+            border: 5px solid var(--white-color);
+            margin-bottom: 15px;
+            transition: transform 0.5s ease;
         }
-        
-        .rivet-top-left {
-            top: 8px;
-            left: 8px;
+        .logo:hover {
+            transform: scale(1.05) rotate(3deg);
         }
-        
-        .rivet-top-right {
-            top: 8px;
-            right: 8px;
+
+        .hero-title {
+            font-family: 'Playfair Display', serif; /* Police élégante pour le titre */
+            font-size: 3em;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
-        
-        .rivet-bottom-left {
-            bottom: 8px;
-            left: 8px;
-        }
-        
-        .rivet-bottom-right {
-            bottom: 8px;
-            right: 8px;
-        }
-        
-        .phare-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 119, 255, 0.2);
-            padding: 6px 12px;
-            border-radius: 30px;
+
+        .hero-subtitle {
+            font-size: 1.3em;
+            margin-top: 0;
             font-weight: 600;
-            color: #0077ff;
-            border: 1px solid rgba(0, 119, 255, 0.5);
-            font-size: 0.85rem;
         }
-        
-        /* Nouveau style pour le menu de partage */
-        .share-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-        }
-        
-        .share-modal {
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 30px rgba(0, 119, 255, 0.4);
-            border: 2px solid #0077ff;
+
+        /* --- Section Produits --- */
+        .products-section {
+            padding: 60px 0; /* Plus d'espace vertical */
             text-align: center;
         }
-        
-        .share-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #0077ff;
-            font-weight: 700;
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
         }
-        
-        .share-options {
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 70%;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .product-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
-        
-        .share-option {
-            background: rgba(40, 40, 40, 0.9);
-            border-radius: 10px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #444;
+
+        .product-card {
+            background-color: var(--white-color);
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s;
+            text-align: left;
         }
-        
-        .share-option:hover {
-            transform: translateY(-5px);
-            background: rgba(60, 60, 60, 0.9);
-            border-color: #0077ff;
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
-        
-        .share-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .share-label {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .whatsapp-share {
-            color: #25D366;
-        }
-        
-        .email-share {
-            color: #EA4335;
-        }
-        
-        .wifi-share {
-            color: #FF9800;
-        }
-        
-        .excel-share {
-            color: #21A366;
-        }
-        
-        .close-share {
-            background: #666;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 15px;
+
+        .product-image {
             width: 100%;
+            height: 380px; /* Légèrement plus grande */
+            object-fit: cover;
+            display: block;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .article-code {
+            font-weight: 700; /* Bolder */
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            display: block;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+
+        .product-description {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+            min-height: 40px; /* Assure une hauteur minimale */
+        }
+
+        .contact-btn {
+            display: block;
+            text-align: center;
+            background-color: var(--accent-color);
+            color: var(--white-color);
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-btn:hover {
+            background-color: #c05858; /* Légèrement plus sombre au survol */
+            transform: translateY(-2px);
         }
         
-        /* Mobile specific optimizations */
-        @media (min-width: 768px) {
-            .header-buttons {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .filter-bar {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .stats-bar {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .main-content {
-                flex-direction: row;
-            }
-            
-            .form-section {
-                flex: 1;
-            }
-            
-            .list-section {
-                flex: 2;
-            }
-            
-            .share-options {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        /* --- Information de Contact dans la section produit --- */
+        .info-contact-produit {
+             color: var(--primary-color);
+             margin-top: 40px;
+             padding: 15px;
+             background-color: var(--white-color);
+             border-radius: 8px;
+             border: 2px dashed var(--accent-color);
+             font-size: 1.2em;
+             font-weight: 600;
+             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* --- Pied de page (Footer) --- */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--white-color);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            color: var(--primary-color); /* Utiliser la couleur principale */
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px 30px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        .contact-info a, .contact-info span {
+            color: var(--white-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
         
-        /* Prevent zoom on input focus */
-        input, select, textarea {
-            font-size: 16px !important;
+        .contact-info a:hover {
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        
-        /* Better scrolling on mobile */
-        .equipment-list, .intervention-list {
-            -webkit-overflow-scrolling: touch;
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9em;
+            border-top: 1px solid #444;
+            padding-top: 15px;
+        }
+
+        /* Icônes simples pour les contacts */
+        .icon::before {
+            content: '🔗';
+            font-size: 1.2em;
+        }
+        .icon-phone::before { content: '📞'; }
+        .icon-whatsapp::before { content: '💬'; }
+        .icon-email::before { content: '📧'; }
+        .icon-insta::before { content: '📸'; }
+        .icon-location::before { content: '📍'; }
+
+        /* Media Query pour l'adaptabilité sur mobile */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2em; }
+            .hero-subtitle { font-size: 1.1em; }
+            .section-title { font-size: 2em; }
+            .product-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+            .product-image { height: 300px; }
+            .contact-info { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
 <body>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCvMFXC4eSZ1PufU5bh_zhnmhJaUN_CJ_s",
-    authDomain: "akekemld.firebaseapp.com",
-    projectId: "akekemld",
-    storageBucket: "akekemld.firebasestorage.app",
-    messagingSenderId: "143116802875",
-    appId: "1:143116802875:web:e0a61cac3559df321cb51e",
-    measurementId: "G-VXT8Y23WXH"
-  };
+    <header class="hero-banner">
+        <div class="hero-overlay">
+            <img src="A.jpg" alt="Logo M_A Fripe" class="logo">
+            <h1 class="hero-title">M_A FRIPE SUPER FRIPE</h1>
+            <p class="hero-subtitle">✨ **MODE ÉTHIQUE ET TENDANCE** POUR TOUTE LA FAMILLE ✨</p>
+        </div>
+    </header>
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-    <div class="login-overlay" id="loginOverlay">
-        <div class="login-form">
-            <div class="logo">
-                <div class="logo-circle">
-                    <span style="font-size: 2rem; font-weight: bold;">S</span>
+    <main class="products-section">
+        <div class="container">
+            <h2 class="section-title">♻️ Notre Collection Friperie - Pièces Uniques et Éco-responsables 🛍️</h2>
+
+            <div class="product-grid">
+                
+                <div class="product-card">
+                    <img src="1.jpg" alt="Vêtement fripe 1" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-001</span>
+                        <p class="product-description">Magnifique pièce tendance pour la saison. Confort et style garantis !</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-001" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
                 </div>
-                <div class="logo-text">SCAPCB</div>
+
+                <div class="product-card">
+                    <img src="2.jpg" alt="Vêtement fripe 2" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-002</span>
+                        <p class="product-description">Classique intemporel. Idéal pour un look décontracté ou habillé.</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-002" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="3.jpg" alt="Vêtement fripe 3" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-003</span>
+                        <p class="product-description">Superbe couleur. Tissus de qualité, comme neuf !</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-003" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="4.jpg" alt="Vêtement fripe 4" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-004</span>
+                        <p class="product-description">Parfait pour les journées fraîches. Élégance et confort assurés.</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-004" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="5.jpg" alt="Vêtement fripe 5" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-005</span>
+                        <p class="product-description">Une touche d'originalité dans votre garde-robe. À ne pas manquer.</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-005" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="6.jpg" alt="Vêtement fripe 6" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-006</span>
+                        <p class="product-description">Le must-have de la saison. Très bonne condition.</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-006" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="7.jpg" alt="Vêtement fripe 7" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-007</span>
+                        <p class="product-description">Pièce unique et rare. Donnez une seconde vie à la mode.</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-007" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="9.jpg" alt="Vêtement fripe 8" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-008</span>
+                        <p class="product-description">Notre coup de cœur ! Doux et agréable à porter.</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-008" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="1.jpg" alt="Vêtement fripe 9" class="product-image">
+                    <div class="product-info">
+                        <span class="article-code">Article : FRIPE-009</span>
+                        <p class="product-description">Article parfait pour compléter n'importe quel ensemble !</p>
+                        <a href="https://wa.me/21622970086?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'article%20FRIPE-009" target="_blank" class="contact-btn">Commander ou Demander plus d'infos</a>
+                    </div>
+                </div>
+
+
             </div>
-            <h2 class="login-title">Le Phare de Cap Bon</h2>
-            <div class="login-input-group">
-                <label for="username"><i class="fas fa-user"></i> Nom d'utilisateur</label>
-                <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur" autocomplete="off">
-            </div>
-            <div class="login-input-group">
-                <label for="password"><i class="fas fa-lock"></i> Mot de passe</label>
-                <input type="password" id="password" placeholder="Entrez votre mot de passe" autocomplete="off">
-                <span class="password-toggle" id="passwordToggle">
-                    <i class="fas fa-eye"></i>
-                </span>
-            </div>
-            <button class="login-btn" id="loginBtn">Se Connecter</button>
-            <div class="login-error" id="loginError">Identifiants incorrects. Veuillez réessayer.</div>
-            <div class="security-note">
-                <i class="fas fa-shield-alt"></i> Système industriel sécurisé - Accès restreint
+            <div class="info-contact-produit">
+                 👉 Intéressé(e) ? **Contactez-nous sur WhatsApp** pour connaître le prix et les détails ! 👈
             </div>
         </div>
-    </div>
-    
-    <!-- Main Application (hidden until login) -->
-    <div class="container" id="mainApp">
-        <header>
-            <div class="industrial-warning"></div>
-            <div class="logo">
-                <div class="logo-circle">
-                    <span style="font-size: 2rem; font-weight: bold;">S</span>
-                </div>
-                <div class="logo-text">SCAPCB</div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <h3>M_A Fripe | Le Style Seconde Main</h3>
+            <p>Découvrez des pièces uniques à petits prix et faites un geste pour la planète.</p>
+
+            <div class="contact-info">
+                <span class="icon-location">**Grombalia, Tunisia** (Zone de service)</span>
+                <a href="tel:+21622970086" class="icon-phone">**Mobile** 22 970 086</a>
+                <a href="https://wa.me/21622970086" target="_blank" class="icon-whatsapp">**WhatsApp** +216 22 970 086</a>
+                <a href="mailto:m.afripe2023@gmail.com" class="icon-email">m.afripe2023@gmail.com</a>
+                <a href="https://www.instagram.com/m_afripe" target="_blank" class="icon-insta">Instagram : m_afripe</a>
             </div>
-            <h1>Système Centralisé d'Administration des Procédures de Contrôle des Bris</h1>
-            <p class="subtitle">Application industrielle de gestion des interventions de maintenance</p>
-            
-            <div class="header-buttons">
-                <button class="export-btn" id="exportExcel">
-                    <i class="fas fa-file-excel"></i> <span>Excel</span>
-                </button>
-                <button class="toggle-btn" id="toggleInterventions">
-                    <i class="fas fa-eye-slash"></i> <span>Masquer</span>
-                </button>
-                <button class="whatsapp-btn" id="shareBtn">
-                    <i class="fab fa-whatsapp"></i> <span>Partager</span>
-                </button>
-                <button class="logout-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> <span>Déco</span>
-                </button>
-            </div>
-            <div class="industrial-warning"></div>
-        </header>
-        
-        <div class="stats-bar">
-            <div class="stat-card">
-                <div class="stat-label">Total</div>
-                <div class="stat-value" id="totalInterventions">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">En Cours</div>
-                <div class="stat-value" id="inProgress">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Terminées</div>
-                <div class="stat-value" id="completed">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Équipements</div>
-                <div class="stat-value" id="totalEquipment">0</div>
-            </div>
+
+            <p class="copyright">© 2023 M_A Fripe Super Fripe. Tous droits réservés. | **Livraison Rapide vers toute la Tunisie** 🇹🇳</p>
         </div>
-        
-        <div class="main-content">
-            <div class="form-section">
-                <div class="rivet rivet-top-left"></div>
-                <div class="rivet rivet-top-right"></div>
-                <div class="rivet rivet-bottom-left"></div>
-                <div class="rivet rivet-bottom-right"></div>
-                
-                <h2 class="section-title"><i class="fas fa-tools"></i> <span id="formTitle">Nouvelle Intervention</span></h2>
-                <form id="interventionForm">
-                    <input type="hidden" id="interventionId">
-                    
-                    <div class="form-group">
-                        <label for="user"><i class="fas fa-user"></i> Utilisateur</label>
-                        <input type="text" id="user" required placeholder="Nom de l'utilisateur">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="matricule"><i class="fas fa-id-card"></i> Matricule</label>
-                        <input type="text" id="matricule" required placeholder="Matricule">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="interventionType"><i class="fas fa-bolt"></i> Type d'intervention</label>
-                        <select id="interventionType" required>
-                            <option value="">Sélectionner un type</option>
-                            <option value="electrique">Maintenance Électrique</option>
-                            <option value="mecanique">Maintenance Mécanique</option>
-                            <option value="servise-general">Service Général</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="maintenanceType"><i class="fas fa-cogs"></i> Type de maintenance</label>
-                        <select id="maintenanceType" required>
-                            <option value="">Sélectionner un type</option>
-                            <option value="preventif">Maintenance Préventive</option>
-                            <option value="corective">Maintenance Corrective</option>
-                            <option value="annule">Intervention Annulée</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="priority"><i class="fas fa-exclamation-triangle"></i> Priorité</label>
-                        <select id="priority" required>
-                            <option value="">Sélectionner une priorité</option>
-                            <option value="high">Haute</option>
-                            <option value="medium">Moyenne</option>
-                            <option value="low">Basse</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="status"><i class="fas fa-tasks"></i> Statut</label>
-                        <select id="status" required>
-                            <option value="planned">Planifiée</option>
-                            <option value="in-progress">En Cours</option>
-                            <option value="completed">Terminée</option>
-                            <option value="annule">Annulée</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="description"><i class="fas fa-file-alt"></i> Description</label>
-                        <textarea id="description" placeholder="Décrivez l'intervention en détail..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="startDate"><i class="fas fa-play-circle"></i> Début d'intervention</label>
-                        <input type="datetime-local" id="startDate" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="endDate"><i class="fas fa-stop-circle"></i> Fin d'intervention</label>
-                        <input type="datetime-local" id="endDate" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="equipment"><i class="fas fa-microchip"></i> Équipement</label>
-                        <div style="display: flex; gap: 8px;">
-                            <input type="text" id="equipment" placeholder="Nom de l'équipement">
-                            <button type="button" id="addEquipment" style="width: auto; padding: 0 15px;"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </div>
-                    
-                    <div class="equipment-list" id="equipmentList">
-                        <p style="text-align: center; color: #95a5a6; padding: 10px;">Aucun équipement ajouté</p>
-                    </div>
-                    
-                    <div class="form-buttons">
-                        <button type="button" class="cancel-btn" id="cancelEdit" style="display: none;">
-                            <i class="fas fa-times"></i> Annuler
-                        </button>
-                        <button type="submit" id="submitBtn">
-                            <i class="fas fa-save"></i> Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </div>
-            
-            <div class="list-section" id="interventionListSection">
-                <div class="rivet rivet-top-left"></div>
-                <div class="rivet rivet-top-right"></div>
-                <div class="rivet rivet-bottom-left"></div>
-                <div class="rivet rivet-bottom-right"></div>
-                
-                <h2 class="section-title"><i class="fas fa-list"></i> Interventions</h2>
-                
-                <div class="filter-bar">
-                    <select id="filterType">
-                        <option value="">Tous types</option>
-                        <option value="electrique">Électrique</option>
-                        <option value="mecanique">Mécanique</option>
-                        <option value="servise-general">Service</option>
-                    </select>
-                    
-                    <select id="filterMaintenance">
-                        <option value="">Toutes</option>
-                        <option value="preventif">Préventive</option>
-                        <option value="corective">Corrective</option>
-                        <option value="annule">Annulée</option>
-                    </select>
-                    
-                    <select id="filterStatus">
-                        <option value="">Tous statuts</option>
-                        <option value="planned">Planifiée</option>
-                        <option value="in-progress">En cours</option>
-                        <option value="completed">Terminée</option>
-                    </select>
-                    
-                    <input type="text" id="searchInput" placeholder="Rechercher...">
-                </div>
-                
-                <div class="intervention-list" id="interventionList">
-                    <div class="no-interventions">
-                        <i class="fas fa-industry" style="font-size: 2.5rem; margin-bottom: 15px; color: #ffcc00;"></i>
-                        <p>Aucune intervention enregistrée</p>
-                        <p>Commencez par ajouter une nouvelle intervention</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>Système Industriel de Gestion de Maintenance &copy; <span class="copyright">HAMADA 2025</span></p>
-            <p>SCAPCB - Le Phare de Cap Bon | <span id="sessionStatus">Session sécurisée</span></p>
-        </footer>
-    </div>
+    </footer>
 
-    <!-- Overlay de partage -->
-    <div class="share-overlay" id="shareOverlay" style="display: none;">
-        <div class="share-modal">
-            <h2 class="share-title">Partager les interventions</h2>
-            <div class="share-options">
-                <div class="share-option" id="whatsappShare">
-                    <i class="fab fa-whatsapp share-icon whatsapp-share"></i>
-                    <span class="share-label">WhatsApp</span>
-                </div>
-                <div class="share-option" id="emailShare">
-                    <i class="fas fa-envelope share-icon email-share"></i>
-                    <span class="share-label">Email</span>
-                </div>
-                <div class="share-option" id="wifiShare">
-                    <i class="fas fa-wifi share-icon wifi-share"></i>
-                    <span class="share-label">WiFi Direct</span>
-                </div>
-                <div class="share-option" id="excelShare">
-                    <i class="fas fa-file-excel share-icon excel-share"></i>
-                    <span class="share-label">Excel</span>
-                </div>
-            </div>
-            <button class="close-share" id="closeShare">Fermer</button>
-        </div>
-    </div>
-
-    <script>
-        // Login credentials
-        const ADMIN_USERNAME = "admin";
-        const ADMIN_PASSWORD = "5513090807**Aa";
-        
-        // DOM elements
-        const loginOverlay = document.getElementById('loginOverlay');
-        const mainApp = document.getElementById('mainApp');
-        const loginBtn = document.getElementById('loginBtn');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const loginError = document.getElementById('loginError');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const passwordToggle = document.getElementById('passwordToggle');
-        const sessionStatus = document.getElementById('sessionStatus');
-        
-        // Initialize variables
-        let interventions = [];
-        let equipmentList = [];
-        let nextId = 1;
-        let isLoggedIn = false;
-        let loginAttempts = 0;
-        const MAX_LOGIN_ATTEMPTS = 3;
-        let isEditing = false;
-        let currentEditId = null;
-        let deviceId = generateDeviceId();
-        
-        // Generate unique device ID
-        function generateDeviceId() {
-            return 'device-' + Math.random().toString(36).substr(2, 9);
-        }
-        
-        // Password visibility toggle
-        passwordToggle.addEventListener('click', () => {
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordToggle.innerHTML = '<i class="fas fa-eye-slash"></i>';
-            } else {
-                passwordInput.type = 'password';
-                passwordToggle.innerHTML = '<i class="fas fa-eye"></i>';
-            }
-        });
-        
-        // Login functionality
-        loginBtn.addEventListener('click', async () => {
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
-            
-            // Security: limit login attempts
-            loginAttempts++;
-            if (loginAttempts > MAX_LOGIN_ATTEMPTS) {
-                loginError.textContent = "Trop de tentatives échouées. Veuillez réessayer plus tard.";
-                loginError.style.display = 'block';
-                loginBtn.disabled = true;
-                setTimeout(() => {
-                    loginBtn.disabled = false;
-                    loginAttempts = 0;
-                }, 30000); // 30 seconds lockout
-                return;
-            }
-            
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                // Successful login
-                isLoggedIn = true;
-                sessionStatus.textContent = "Connecté";
-                loginAttempts = 0;
-                
-                try {
-                    // Load data from localStorage
-                    const storedData = localStorage.getItem('scapcb-data');
-                    if (storedData) {
-                        const parsedData = JSON.parse(storedData);
-                        interventions = parsedData.interventions || [];
-                        nextId = parsedData.nextId || 1;
-                    }
-                    
-                    loginOverlay.style.display = 'none';
-                    mainApp.style.display = 'block';
-                    renderEquipmentList();
-                    renderInterventionList();
-                    updateStats();
-                    
-                } catch (error) {
-                    console.error("Erreur de chargement:", error);
-                    loginOverlay.style.display = 'none';
-                    mainApp.style.display = 'block';
-                    renderEquipmentList();
-                    renderInterventionList();
-                    updateStats();
-                }
-            } else {
-                // Failed login
-                loginError.textContent = `Identifiants incorrects. Tentatives restantes: ${MAX_LOGIN_ATTEMPTS - loginAttempts}`;
-                loginError.style.display = 'block';
-                usernameInput.style.border = '2px solid #ff3333';
-                passwordInput.style.border = '2px solid #ff3333';
-                
-                // Clear password field
-                passwordInput.value = '';
-            }
-        });
-        
-        // Logout functionality
-        logoutBtn.addEventListener('click', () => {
-            if (confirm('Êtes-vous sûr de vouloir vous déconnecter?')) {
-                logout();
-            }
-        });
-        
-        // Logout function
-        function logout() {
-            isLoggedIn = false;
-            sessionStatus.textContent = "Session sécurisée";
-            mainApp.style.display = 'none';
-            loginOverlay.style.display = 'flex';
-            usernameInput.value = '';
-            passwordInput.value = '';
-            loginError.style.display = 'none';
-            usernameInput.style.border = '';
-            passwordInput.style.border = '';
-            
-            // Clear any sensitive data from memory
-            interventions = [];
-            equipmentList = [];
-            nextId = 1;
-            resetForm();
-        }
-        
-        // Toggle interventions button
-        const toggleBtn = document.getElementById('toggleInterventions');
-        const interventionListSection = document.getElementById('interventionListSection');
-        let interventionsVisible = true;
-        
-        toggleBtn.addEventListener('click', () => {
-            interventionsVisible = !interventionsVisible;
-            
-            if (interventionsVisible) {
-                interventionListSection.style.display = 'block';
-                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> <span>Masquer</span>';
-            } else {
-                interventionListSection.style.display = 'none';
-                toggleBtn.innerHTML = '<i class="fas fa-eye"></i> <span>Afficher</span>';
-            }
-        });
-        
-        // DOM elements for the main app
-        const interventionForm = document.getElementById('interventionForm');
-        const addEquipmentBtn = document.getElementById('addEquipment');
-        const equipmentInput = document.getElementById('equipment');
-        const equipmentListEl = document.getElementById('equipmentList');
-        const interventionListEl = document.getElementById('interventionList');
-        const exportExcelBtn = document.getElementById('exportExcel');
-        const cancelEditBtn = document.getElementById('cancelEdit');
-        const formTitle = document.getElementById('formTitle');
-        const submitBtn = document.getElementById('submitBtn');
-        const interventionIdInput = document.getElementById('interventionId');
-        
-        // Stats elements
-        const totalInterventionsEl = document.getElementById('totalInterventions');
-        const inProgressEl = document.getElementById('inProgress');
-        const completedEl = document.getElementById('completed');
-        const totalEquipmentEl = document.getElementById('totalEquipment');
-        
-        // Filter elements
-        const filterType = document.getElementById('filterType');
-        const filterMaintenance = document.getElementById('filterMaintenance');
-        const filterStatus = document.getElementById('filterStatus');
-        const searchInput = document.getElementById('searchInput');
-        
-        // Add equipment to the list
-        addEquipmentBtn.addEventListener('click', () => {
-            const equipment = equipmentInput.value.trim();
-            if (equipment) {
-                equipmentList.push(equipment);
-                equipmentInput.value = '';
-                renderEquipmentList();
-            }
-        });
-        
-        // Render equipment list
-        function renderEquipmentList() {
-            equipmentListEl.innerHTML = '';
-            
-            if (equipmentList.length === 0) {
-                equipmentListEl.innerHTML = '<p style="text-align: center; color: #95a5a6; padding: 10px;">Aucun équipement ajouté</p>';
-                return;
-            }
-            
-            equipmentList.forEach((equipment, index) => {
-                const item = document.createElement('div');
-                item.className = 'equipment-item';
-                item.innerHTML = `
-                    <span>${equipment}</span>
-                    <button class="remove-equipment" data-index="${index}"><i class="fas fa-trash"></i> Supprimer</button>
-                `;
-                equipmentListEl.appendChild(item);
-            });
-            
-            // Add event listeners to remove buttons
-            document.querySelectorAll('.remove-equipment').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const index = parseInt(e.target.closest('button').dataset.index);
-                    equipmentList.splice(index, 1);
-                    renderEquipmentList();
-                });
-            });
-        }
-        
-        // Handle form submission
-        interventionForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const user = document.getElementById('user').value;
-            const matricule = document.getElementById('matricule').value;
-            const interventionType = document.getElementById('interventionType').value;
-            const maintenanceType = document.getElementById('maintenanceType').value;
-            const priority = document.getElementById('priority').value;
-            const status = document.getElementById('status').value;
-            const description = document.getElementById('description').value;
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const id = interventionIdInput.value;
-            
-            if (!user || !matricule || !interventionType || !maintenanceType || !priority || !status || !startDate || !endDate) {
-                alert('Veuillez remplir tous les champs obligatoires');
-                return;
-            }
-            
-            if (new Date(endDate) < new Date(startDate)) {
-                alert('La date de fin ne peut pas être antérieure à la date de début');
-                return;
-            }
-            
-            if (isEditing && id) {
-                // Update existing intervention
-                const index = interventions.findIndex(i => i.id == id);
-                if (index !== -1) {
-                    interventions[index] = {
-                        ...interventions[index],
-                        user,
-                        matricule,
-                        interventionType,
-                        maintenanceType,
-                        priority,
-                        status,
-                        description,
-                        start: startDate,
-                        end: endDate,
-                        equipment: [...equipmentList],
-                        updatedAt: new Date().toISOString(),
-                        updatedBy: deviceId
-                    };
-                    
-                    showSyncStatus("Intervention mise à jour avec succès", true);
-                }
-            } else {
-                // Create new intervention
-                const newIntervention = {
-                    id: nextId++,
-                    user,
-                    matricule,
-                    interventionType,
-                    maintenanceType,
-                    priority,
-                    status,
-                    description,
-                    start: startDate,
-                    end: endDate,
-                    equipment: [...equipmentList],
-                    createdAt: new Date().toISOString(),
-                    createdBy: deviceId,
-                    updatedAt: null,
-                    updatedBy: null
-                };
-                
-                interventions.push(newIntervention);
-                showSyncStatus("Intervention enregistrée avec succès", true);
-            }
-            
-            equipmentList = [];
-            renderEquipmentList();
-            renderInterventionList();
-            updateLocalStorage();
-            updateStats();
-            resetForm();
-        });
-        
-        // Reset form to initial state
-        function resetForm() {
-            interventionForm.reset();
-            equipmentList = [];
-            renderEquipmentList();
-            isEditing = false;
-            currentEditId = null;
-            formTitle.textContent = "Nouvelle Intervention";
-            submitBtn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
-            cancelEditBtn.style.display = 'none';
-            interventionIdInput.value = '';
-        }
-        
-        // Cancel edit mode
-        cancelEditBtn.addEventListener('click', resetForm);
-        
-        // Edit intervention
-        function editIntervention(id) {
-            const intervention = interventions.find(i => i.id == id);
-            if (!intervention) return;
-            
-            // Fill form with intervention data
-            document.getElementById('user').value = intervention.user;
-            document.getElementById('matricule').value = intervention.matricule;
-            document.getElementById('interventionType').value = intervention.interventionType;
-            document.getElementById('maintenanceType').value = intervention.maintenanceType;
-            document.getElementById('priority').value = intervention.priority;
-            document.getElementById('status').value = intervention.status;
-            document.getElementById('description').value = intervention.description || '';
-            document.getElementById('startDate').value = intervention.start;
-            document.getElementById('endDate').value = intervention.end;
-            interventionIdInput.value = intervention.id;
-            
-            // Set equipment
-            equipmentList = [...intervention.equipment];
-            renderEquipmentList();
-            
-            // Change form to edit mode
-            isEditing = true;
-            currentEditId = id;
-            formTitle.textContent = "Modifier Intervention";
-            submitBtn.innerHTML = '<i class="fas fa-sync"></i> Mettre à jour';
-            cancelEditBtn.style.display = 'block';
-            
-            // Scroll to form
-            document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Delete intervention
-        function deleteIntervention(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer cette intervention?')) {
-                interventions = interventions.filter(i => i.id !== id);
-                renderInterventionList();
-                updateLocalStorage();
-                updateStats();
-                showSyncStatus("Intervention supprimée avec succès", true);
-                
-                // If we were editing the deleted item, reset form
-                if (isEditing && currentEditId == id) {
-                    resetForm();
-                }
-            }
-        }
-        
-        // Render intervention list
-        function renderInterventionList() {
-            interventionListEl.innerHTML = '';
-            
-            // Apply filters
-            let filteredInterventions = [...interventions];
-            
-            // Type filter
-            if (filterType.value) {
-                filteredInterventions = filteredInterventions.filter(i => i.interventionType === filterType.value);
-            }
-            
-            // Maintenance type filter
-            if (filterMaintenance.value) {
-                filteredInterventions = filteredInterventions.filter(i => i.maintenanceType === filterMaintenance.value);
-            }
-            
-            // Status filter
-            if (filterStatus.value) {
-                filteredInterventions = filteredInterventions.filter(i => i.status === filterStatus.value);
-            }
-            
-            // Search filter
-            if (searchInput.value) {
-                const searchTerm = searchInput.value.toLowerCase();
-                filteredInterventions = filteredInterventions.filter(i => 
-                    i.user.toLowerCase().includes(searchTerm) || 
-                    i.matricule.toLowerCase().includes(searchTerm) ||
-                    (i.description && i.description.toLowerCase().includes(searchTerm)) ||
-                    i.equipment.some(eq => eq.toLowerCase().includes(searchTerm))
-                );
-            }
-            
-            if (filteredInterventions.length === 0) {
-                interventionListEl.innerHTML = '<div class="no-interventions"><i class="fas fa-industry" style="font-size: 2.5rem; margin-bottom: 15px; color: #ffcc00;"></i><p>Aucune intervention correspondant aux critères</p></div>';
-                return;
-            }
-            
-            // Sort by start date (newest first)
-            filteredInterventions.sort((a, b) => new Date(b.start) - new Date(a.start));
-            
-            filteredInterventions.forEach(intervention => {
-                const card = document.createElement('div');
-                card.className = `intervention-card priority-${intervention.priority}`;
-                
-                // Map types to French labels
-                const interventionTypeMap = {
-                    'electrique': 'Électrique',
-                    'mecanique': 'Mécanique',
-                    'servise-general': 'Service Général'
-                };
-                
-                const maintenanceTypeMap = {
-                    'preventif': 'Préventive',
-                    'corective': 'Corrective',
-                    'annule': 'Annulée'
-                };
-                
-                const statusMap = {
-                    'planned': 'Planifiée',
-                    'in-progress': 'En Cours',
-                    'completed': 'Terminée',
-                    'annule': 'Annulée'
-                };
-                
-                const statusClassMap = {
-                    'planned': 'status-planned',
-                    'in-progress': 'status-in-progress',
-                    'completed': 'status-completed',
-                    'annule': 'status-canceled'
-                };
-                
-                card.innerHTML = `
-                    <div class="intervention-header">
-                        <div class="intervention-title">${intervention.user} (${intervention.matricule})</div>
-                        <div>
-                            <span class="intervention-type ${intervention.interventionType}">${interventionTypeMap[intervention.interventionType]}</span>
-                            <span class="intervention-type ${intervention.maintenanceType}">${maintenanceTypeMap[intervention.maintenanceType]}</span>
-                            <span class="status-badge ${statusClassMap[intervention.status]}">${statusMap[intervention.status]}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="intervention-details">
-                        <div class="detail-item">
-                            <span class="detail-label"><i class="far fa-calendar-alt"></i> Début</span>
-                            <span class="detail-value">${formatDate(intervention.start)}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label"><i class="far fa-calendar-alt"></i> Fin</span>
-                            <span class="detail-value">${formatDate(intervention.end)}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label"><i class="far fa-clock"></i> Durée</span>
-                            <span class="detail-value">${calculateDuration(intervention.start, intervention.end)}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label"><i class="fas fa-exclamation-triangle"></i> Priorité</span>
-                            <span class="detail-value" style="text-transform: capitalize;">${intervention.priority}</span>
-                        </div>
-                    </div>
-                    
-                    ${intervention.description ? `
-                    <div class="intervention-description">
-                        <div class="description-label"><i class="fas fa-file-alt"></i> Description:</div>
-                        <div>${intervention.description}</div>
-                    </div>
-                    ` : ''}
-                    
-                    <div class="intervention-equipment">
-                        <div class="detail-label"><i class="fas fa-cog"></i> Équipements:</div>
-                        ${intervention.equipment.map(eq => `<span class="equipment-tag">${eq}</span>`).join('')}
-                    </div>
-                    
-                    <div class="card-footer">
-                        <span class="intervention-id">
-                            ID: #${intervention.id} 
-                            ${intervention.updatedAt ? `| Mise à jour: ${formatDate(intervention.updatedAt)} <span class="device-badge">${intervention.updatedBy === deviceId ? 'Cet appareil' : 'Autre appareil'}</span>` : `| Créé le: ${formatDate(intervention.createdAt)} <span class="device-badge">${intervention.createdBy === deviceId ? 'Cet appareil' : 'Autre appareil'}</span>`}
-                        </span>
-                        <div class="action-buttons">
-                            <button class="edit-intervention" data-id="${intervention.id}">
-                                <i class="fas fa-edit"></i> Modifier
-                            </button>
-                            <button class="delete-intervention" data-id="${intervention.id}">
-                                <i class="fas fa-trash"></i> Supprimer
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-                interventionListEl.appendChild(card);
-            });
-            
-            // Add event listeners to action buttons
-            document.querySelectorAll('.edit-intervention').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.closest('button').dataset.id);
-                    editIntervention(id);
-                });
-            });
-            
-            document.querySelectorAll('.delete-intervention').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.closest('button').dataset.id);
-                    deleteIntervention(id);
-                });
-            });
-        }
-        
-        // Format date for display
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleString('fr-FR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-        
-        // Calculate duration between two dates
-        function calculateDuration(start, end) {
-            const startDate = new Date(start);
-            const endDate = new Date(end);
-            const diff = endDate - startDate;
-            
-            const hours = Math.floor(diff / 3600000);
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            
-            return `${hours}h ${minutes}min`;
-        }
-        
-        // Update stats
-        function updateStats() {
-            totalInterventionsEl.textContent = interventions.length;
-            
-            const inProgress = interventions.filter(i => i.status === 'in-progress').length;
-            inProgressEl.textContent = inProgress;
-            
-            const completed = interventions.filter(i => i.status === 'completed').length;
-            completedEl.textContent = completed;
-            
-            // Calculate total equipment
-            let totalEquipment = 0;
-            interventions.forEach(intervention => {
-                totalEquipment += intervention.equipment.length;
-            });
-            totalEquipmentEl.textContent = totalEquipment;
-        }
-        
-        // Update localStorage
-        function updateLocalStorage() {
-            const appData = {
-                interventions: interventions,
-                nextId: nextId
-            };
-            localStorage.setItem('scapcb-data', JSON.stringify(appData));
-        }
-        
-        // Export to Excel functionality
-        exportExcelBtn.addEventListener('click', () => {
-            if (interventions.length === 0) {
-                alert("Aucune intervention à exporter!");
-                return;
-            }
-            
-            // Prepare data for export
-            const data = interventions.map(intervention => {
-                return {
-                    ID: intervention.id,
-                    Utilisateur: intervention.user,
-                    Matricule: intervention.matricule,
-                    "Type d'intervention": intervention.interventionType,
-                    "Type de maintenance": intervention.maintenanceType,
-                    Priorité: intervention.priority,
-                    Statut: intervention.status,
-                    Description: intervention.description,
-                    "Début d'intervention": formatDate(intervention.start),
-                    "Fin d'intervention": formatDate(intervention.end),
-                    Durée: calculateDuration(intervention.start, intervention.end),
-                    Équipements: intervention.equipment.join(", "),
-                    "Date de création": formatDate(intervention.createdAt),
-                    "Créé par": intervention.createdBy,
-                    "Dernière mise à jour": intervention.updatedAt ? formatDate(intervention.updatedAt) : "",
-                    "Mis à jour par": intervention.updatedBy || ""
-                };
-            });
-            
-            // Create worksheet
-            const worksheet = XLSX.utils.json_to_sheet(data);
-            
-            // Create workbook
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Interventions");
-            
-            // Export to Excel file
-            XLSX.writeFile(workbook, "interventions_maintenance.xlsx");
-        });
-
-        // Fonction pour générer le contenu de l'email
-        function generateEmailContent() {
-            let content = "Rapport des interventions de maintenance:\n\n";
-            
-            interventions.forEach(intervention => {
-                content += `ID: ${intervention.id}\n`;
-                content += `Utilisateur: ${intervention.user}\n`;
-                content += `Matricule: ${intervention.matricule}\n`;
-                content += `Type: ${intervention.interventionType}\n`;
-                content += `Maintenance: ${intervention.maintenanceType}\n`;
-                content += `Statut: ${intervention.status}\n`;
-                content += `Début: ${formatDate(intervention.start)}\n`;
-                content += `Fin: ${formatDate(intervention.end)}\n`;
-                content += `Équipements: ${intervention.equipment.join(', ')}\n`;
-                content += `Description: ${intervention.description || 'Aucune'}\n`;
-                content += `\n--------------------------------\n\n`;
-            });
-            
-            return content;
-        }
-
-        // Fonction pour envoyer l'email
-        function shareViaEmail() {
-            if (interventions.length === 0) {
-                alert("Aucune intervention à envoyer!");
-                return;
-            }
-            
-            const subject = "Rapport des interventions de maintenance";
-            const body = generateEmailContent();
-            const email = "hamadamohamedvth@gmail.com";
-            
-            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            
-            window.location.href = mailtoLink;
-        }
-
-        // Fonction pour partager via WhatsApp
-        function shareViaWhatsApp() {
-            if (interventions.length === 0) {
-                alert("Aucune intervention à partager!");
-                return;
-            }
-            
-            const text = generateEmailContent();
-            // WhatsApp impose une limite de 4096 caractères dans l'URL, donc on tronque si nécessaire
-            const maxLength = 4096 - 50; // Réduire pour la marge
-            let shareText = text;
-            if (text.length > maxLength) {
-                shareText = text.substring(0, maxLength) + "... [Tronqué]";
-            }
-
-            const encodedText = encodeURIComponent(shareText);
-            const whatsappUrl = `https://wa.me/?text=${encodedText}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        // Fonction pour partager via WiFi (simulé)
-        function shareViaWiFi() {
-            if (interventions.length === 0) {
-                alert("Aucune intervention à partager!");
-                return;
-            }
-            
-            // Dans une application réelle, cette fonction utiliserait une API de partage WiFi
-            // Pour cette démo, nous allons simplement télécharger le fichier
-            exportExcelBtn.click();
-            showSyncStatus("Les interventions sont prêtes pour le transfert WiFi", true);
-        }
-
-        // Fonction pour exporter en Excel
-        function exportToExcel() {
-            exportExcelBtn.click();
-        }
-
-        // Gestion du menu de partage
-        const shareBtn = document.getElementById('shareBtn');
-        const shareOverlay = document.getElementById('shareOverlay');
-        const closeShare = document.getElementById('closeShare');
-        const whatsappShare = document.getElementById('whatsappShare');
-        const emailShare = document.getElementById('emailShare');
-        const wifiShare = document.getElementById('wifiShare');
-        const excelShare = document.getElementById('excelShare');
-
-        shareBtn.addEventListener('click', () => {
-            shareOverlay.style.display = 'flex';
-        });
-
-        closeShare.addEventListener('click', () => {
-            shareOverlay.style.display = 'none';
-        });
-
-        whatsappShare.addEventListener('click', () => {
-            shareOverlay.style.display = 'none';
-            shareViaWhatsApp();
-        });
-
-        emailShare.addEventListener('click', () => {
-            shareOverlay.style.display = 'none';
-            shareViaEmail();
-        });
-
-        wifiShare.addEventListener('click', () => {
-            shareOverlay.style.display = 'none';
-            shareViaWiFi();
-        });
-
-        excelShare.addEventListener('click', () => {
-            shareOverlay.style.display = 'none';
-            exportToExcel();
-        });
-        
-        // Show sync status
-        function showSyncStatus(message, isSuccess) {
-            // Remove existing status
-            const existingStatus = document.querySelector('.sync-status');
-            if (existingStatus) existingStatus.remove();
-            
-            const statusEl = document.createElement('div');
-            statusEl.className = 'sync-status';
-            statusEl.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle sync-success' : 'fa-times-circle sync-error'}"></i> ${message}`;
-            
-            document.body.appendChild(statusEl);
-            
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                statusEl.remove();
-            }, 3000);
-        }
-        
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', () => {
-            // Always start with login screen
-            loginOverlay.style.display = 'flex';
-            mainApp.style.display = 'none';
-            sessionStatus.textContent = "Session sécurisée";
-            
-            // Prevent autocomplete
-            usernameInput.autocomplete = "off";
-            passwordInput.autocomplete = "off";
-            
-            // Clear any stored credentials
-            usernameInput.value = '';
-            passwordInput.value = '';
-            
-            // Add event listeners to filters
-            filterType.addEventListener('change', renderInterventionList);
-            filterMaintenance.addEventListener('change', renderInterventionList);
-            filterStatus.addEventListener('change', renderInterventionList);
-            searchInput.addEventListener('input', renderInterventionList);
-            
-            // Mobile optimizations
-            document.querySelectorAll('button').forEach(btn => {
-                btn.addEventListener('touchstart', function() {
-                    this.classList.add('active');
-                });
-                btn.addEventListener('touchend', function() {
-                    this.classList.remove('active');
-                });
-            });
-        });
-    </script>
 </body>
 </html>
